@@ -1,4 +1,17 @@
-#include "complex.h"
+/*
+Commands:
+gcc -c complex.c -o complex.o
+ar rcs libcomplex.a complex.o
+gcc test.c -L. -lcomplex -o test
+./test
+*/
+
+#include <stdio.h>
+
+typedef struct {
+    float real;
+    float imag;
+} Complex;
 
 Complex add_complex(Complex a, Complex b) {
     Complex result;

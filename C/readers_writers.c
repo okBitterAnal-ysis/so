@@ -1,3 +1,9 @@
+/*
+Commands:
+gcc readers_writers.c -o rw -lpthread
+./rw
+*/
+
 #include <stdio.h>
 #include <pthread.h>
 #include <semaphore.h>
@@ -9,36 +15,49 @@ int reader_count = 0;
 void* reader(void* arg) {
     int id = *(int*)arg;
 
-    for(int i=0;i<3;i++) {
+    for (int i = 0; i < 3; i++) {
         sem_wait(&mutex);
+
         reader_count++;
-        if(reader_count == 1)
+
+        if (reader_count == 1)
             sem_wait(&write_lock);
+
         sem_post(&mutex);
 
         printf("Reader %d is reading\n", id);
+
         sleep(1);
 
         sem_wait(&mutex);
+
         reader_count--;
-        if(reader_count == 0)
+
+        if (reader_count == 0)
             sem_post(&write_lock);
+
         sem_post(&mutex);
 
         sleep(1);
     }
-    return NULL;
+
+    pthread_exit(NULL);
 }
 
 void* writer(void* arg) {
-    for(int i=0;i<3;i++) {
+    for (int i = 0; i < 3; i++) {
         sem_wait(&write_lock);
+
         printf("Writer is writing\n");
+
         sleep(1);
+
         sem_post(&write_lock);
+
         sleep(1);
     }
-    return NULL;
+
+    pthread_exit(NULL);
 }
 
 int main() {

@@ -1,28 +1,37 @@
+/*
+Commands:
+gcc two_level_paging.c -o paging
+./paging
+*/
+
 #include <stdio.h>
 
 int main() {
-    unsigned int virtual_address = 0x00403004;
+    unsigned int virtualAddress = 0x00403004;
 
-    unsigned int l1 = (virtual_address >> 22) & 0x3FF;
-    unsigned int l2 = (virtual_address >> 12) & 0x3FF;
-    unsigned int offset = virtual_address & 0xFFF;
+    unsigned int l1 = (virtualAddress >> 22) & 0x3FF;
+    unsigned int l2 = (virtualAddress >> 12) & 0x3FF;
+    unsigned int offset = virtualAddress & 0xFFF;
 
-    printf("Virtual Address = 0x%X\n", virtual_address);
+    int l1Table[1024];
+    int l2Table[1024];
+
+    l1Table[1] = 5000;
+    l2Table[3] = 7;
+
+    unsigned int frame = l2Table[3];
+
+    unsigned int physicalAddress = (frame * 4096) + offset;
+
+    printf("Virtual Address = 0x%X\n", virtualAddress);
     printf("L1 Index = %u\n", l1);
     printf("L2 Index = %u\n", l2);
     printf("Offset = %u\n", offset);
 
-    int l1_table[1024];
-    l1_table[1] = 5000;
+    printf("L1[1] -> L2 Table Base = %d\n", l1Table[1]);
+    printf("L2[3] -> Frame = %d\n", l2Table[3]);
 
-    int l2_table[1024];
-    l2_table[3] = 7;
-
-    int frame = l2_table[3];
-    unsigned int physical_address = frame * 4096 + offset;
-
-    printf("Frame Number = %d\n", frame);
-    printf("Physical Address = 0x%X\n", physical_address);
+    printf("Physical Address = 0x%X\n", physicalAddress);
 
     return 0;
 }

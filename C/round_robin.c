@@ -1,40 +1,47 @@
+/*
+Commands:
+gcc round_robin.c -o rr
+./rr
+*/
+
 #include <stdio.h>
 
 int main() {
-    int bt[] = {10,4,6,3};
-    int rem[] = {10,4,6,3};
-    int n = 4;
-    int quantum = 3;
-    int time = 0;
-    int complete = 0;
+    int bt[] = {10, 4, 6, 3};
+    int rt[] = {10, 4, 6, 3};
     int ct[4];
+    int tq = 3;
+    int time = 0;
+    int done;
 
-    while(complete < n) {
-        for(int i=0;i<n;i++) {
-            if(rem[i] > 0) {
-                if(rem[i] > quantum) {
-                    time += quantum;
-                    rem[i] -= quantum;
+    do {
+        done = 1;
+
+        for (int i = 0; i < 4; i++) {
+            if (rt[i] > 0) {
+                done = 0;
+
+                if (rt[i] > tq) {
+                    time += tq;
+                    rt[i] -= tq;
                 } else {
-                    time += rem[i];
+                    time += rt[i];
                     ct[i] = time;
-                    rem[i] = 0;
-                    complete++;
+                    rt[i] = 0;
                 }
             }
         }
-    }
+
+    } while (!done);
 
     float avg = 0;
 
-    printf("Job\tCompletion Time\tTurnaround Time\n");
-
-    for(int i=0;i<n;i++) {
+    for (int i = 0; i < 4; i++) {
+        printf("J%d Completion Time = %d\n", i + 1, ct[i]);
         avg += ct[i];
-        printf("J%d\t%d\t\t%d\n", i+1, ct[i], ct[i]);
     }
 
-    printf("\nAverage Turnaround Time = %.2f\n", avg/n);
+    printf("\nAverage Turnaround Time = %.2f\n", avg / 4);
 
     return 0;
 }

@@ -1,3 +1,9 @@
+/*
+Commands:
+gcc news_threads.c -o news -lpthread
+./news
+*/
+
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -7,14 +13,18 @@ pthread_mutex_t lock;
 void* headlines(void* arg) {
     char* source = (char*)arg;
 
-    for(int i=1;i<=5;i++) {
+    for (int i = 1; i <= 5; i++) {
+
         pthread_mutex_lock(&lock);
+
         printf("%s Headline %d\n", source, i);
+
         pthread_mutex_unlock(&lock);
+
         usleep(100000);
     }
 
-    return NULL;
+    pthread_exit(NULL);
 }
 
 int main() {
@@ -31,6 +41,8 @@ int main() {
     pthread_join(t3, NULL);
 
     pthread_mutex_destroy(&lock);
+
+    printf("\nMutex serializes access to printing, preventing mixed output.\n");
 
     return 0;
 }

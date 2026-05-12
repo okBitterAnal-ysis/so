@@ -1,4 +1,11 @@
+/*
+Commands:
+gcc shared_memory_counter.c -o shmcounter
+./shmcounter
+*/
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -8,13 +15,12 @@
 typedef struct {
     int counter;
     sem_t mutex;
-} Shared;
+} SharedData;
 
 int main() {
+    int shmid = shmget(IPC_PRIVATE, sizeof(SharedData), IPC_CREAT | 0666);
 
-    int shmid = shmget(IPC_PRIVATE, sizeof(Shared), IPC_CREAT | 0666);
-
-    Shared *data = (Shared*) shmat(shmid, NULL, 0);
+    SharedData *data = (SharedData*)shmat(shmid, NULL, 0);
 
     data->counter = 0;
 
@@ -22,30 +28,19 @@ int main() {
 
     pid_t pid = fork();
 
-    if(pid == 0) {
-
-        for(int i=0;i<10;i++) {
-
+    if (pid == 0) {
+        for (int i = 0; i < 10; i++) {
             sem_wait(&data->mutex);
-
-            printf("Reader reads %d\n", data->counter);
-
+            printf("Reader: Counter = %d\n", data->counter);
             sem_post(&data->mutex);
 
             sleep(1);
         }
-    }
-
-    else {
-
-        for(int i=0;i<10;i++) {
-
+    } else {
+        for (int i = 0; i < 10; i++) {
             sem_wait(&data->mutex);
-
             data->counter++;
-
-            printf("Writer updated %d\n", data->counter);
-
+            printf("Writer incremented counter to %d\n", data->counter);
             sem_post(&data->mutex);
 
             sleep(1);
@@ -54,9 +49,7 @@ int main() {
         wait(NULL);
 
         sem_destroy(&data->mutex);
-
         shmdt(data);
-
         shmctl(shmid, IPC_RMID, NULL);
     }
 
