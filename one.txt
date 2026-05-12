@@ -1,0 +1,181 @@
+Here is the complete list of Linux commands to handle your lab tasks, organized by section.
+
+## Part A – Basic File Operations
+
+**1. Basic Navigation & Listing**
+
+* **a)** `pwd`
+* **b)** `ls -a`
+* **c)** `ls -l` (Combine as `ls -la` for both)
+
+**2. Directory & File Creation**
+
+```bash
+mkdir OS_Lab && cd OS_Lab && touch file1.txt file2.txt file3.txt
+
+```
+
+**3. Move File**
+
+```bash
+mkdir backup && mv file1.txt backup/
+
+```
+
+**4. Rename File**
+
+```bash
+mv file2.txt system.txt
+
+```
+
+**5. Delete File**
+
+```bash
+rm file3.txt
+
+```
+
+---
+
+## Part B – File and Directory Operations
+
+**6. Create Directory Structure**
+
+```bash
+mkdir -p lab/week1 lab/week2
+
+```
+
+**7. Copy Contents**
+
+```bash
+cp lab/week1/* lab/week2/
+
+```
+
+**8. Recursive Remove**
+
+```bash
+rm -r lab/week1
+
+```
+
+**9. Tree Structure**
+
+```bash
+tree lab
+
+```
+
+---
+
+## Part C – File Viewing and Editing
+
+**10. Create and Edit**
+
+```bash
+nano notes.txt 
+# Type 5 lines, then press Ctrl+O (Enter) and Ctrl+X to exit.
+
+```
+
+**11. Head and Tail**
+
+* **a)** `head -n 3 notes.txt`
+* **b)** `tail -n 2 notes.txt`
+
+**12. Page-by-Page View**
+
+```bash
+less notes.txt
+# (Use spacebar to scroll, 'q' to quit)
+
+```
+
+---
+
+## Part D – Permissions and Ownership
+
+**13. View Permissions**
+
+```bash
+ls -l
+
+```
+
+**14. Change Permissions (Numeric or Symbolic)**
+
+* **Numeric:** `chmod 640 notes.txt`
+* **Symbolic:** `chmod u=rw,g=r,o= notes.txt`
+
+**15. Make Executable**
+
+```bash
+chmod +x run.sh
+
+```
+
+---
+
+## Part E – Process and System Monitoring
+
+**16. List Processes**
+
+```bash
+ps aux
+
+```
+
+**17. Real-time Monitoring**
+
+```bash
+top
+
+```
+
+**18. Find PID and Terminate**
+
+* **Find PID:** `ps aux | grep "program_name"`
+* **Terminate:** `kill <PID>` (or `kill -9 <PID>` for a forced stop)
+
+**19. Disk and Memory**
+
+* **a)** `df -h`
+* **b)** `free -m`
+
+---
+
+## Part F – Utility Commands
+
+**20. Search with Grep**
+
+```bash
+grep "Linux" notes.txt
+
+```
+
+**21. Command History**
+
+```bash
+history | tail -n 10
+
+```
+
+**22. Manual Pages**
+
+```bash
+man chmod
+
+```
+
+---
+
+### Grep Power-User Tips
+
+Since you asked specifically for `grep` commands, here are a few common patterns used to filter the tasks above:
+
+* **Search case-insensitive:** `grep -i "linux" notes.txt`
+* **Count occurrences:** `grep -c "Linux" notes.txt`
+* **Search for a process by name:** `ps aux | grep -i "firefox"`
+* **Search for hidden files only:** `ls -a | grep "^\."`
