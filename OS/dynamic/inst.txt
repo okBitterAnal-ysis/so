@@ -1,0 +1,25 @@
+Commands
+Step 1
+
+Create shared library
+
+gcc -fPIC -shared -o libmath.so math.c -lm
+
+-lm links math library.
+
+Step 2
+
+Compile test program
+
+gcc test.c -L. -lmath -Wl,-rpath,. -o test -lm
+
+Meaning:
+
+-L. → current directory
+-lmath → use libmath.so
+-Wl,-rpath,. → runtime path current directory
+Step 3
+
+Run
+
+./test

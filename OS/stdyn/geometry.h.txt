@@ -1,0 +1,8 @@
+struct Complex {
+    float real;
+    float imag;
+};
+
+float magnitude(struct Complex c);
+
+float phase(struct Complex c);

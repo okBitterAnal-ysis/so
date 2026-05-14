@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include "math.h"
+
+int main() {
+
+    struct Complex c;
+
+    printf("Enter real and imaginary part: ");
+    scanf("%f %f", &c.real, &c.imag);
+
+    printf("Absolute Value = %.2f\n", absolute(c));
+
+    printf("Power = %.2f\n", power_complex(c));
+
+    return 0;
+}

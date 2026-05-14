@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include "geometry.h"
+
+int main() {
+
+    struct Complex c;
+
+    printf("Enter real and imaginary part: ");
+    scanf("%f %f", &c.real, &c.imag);
+
+    printf("Magnitude = %.2f\n", magnitude(c));
+
+    printf("Phase Angle = %.2f radians\n", phase(c));
+
+    return 0;
+}

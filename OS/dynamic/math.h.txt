@@ -1,0 +1,8 @@
+struct Complex {
+    float real;
+    float imag;
+};
+
+float absolute(struct Complex c);
+
+float power_complex(struct Complex c);

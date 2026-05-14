@@ -1,0 +1,37 @@
+STATIC VERSION
+Step 1
+
+Compile object file
+
+gcc -c geometry.c -lm
+Step 2
+
+Create static library
+
+ar rcs libgeometry.a geometry.o
+Step 3
+
+Compile + link
+
+gcc main.c -L. -lgeometry -o main_static -lm
+Step 4
+
+Run
+
+./main_static
+DYNAMIC VERSION
+Step 1
+
+Create shared library
+
+gcc -fPIC -shared -o libgeometry.so geometry.c -lm
+Step 2
+
+Compile dynamically
+
+gcc main.c -L. -lgeometry -Wl,-rpath,. -o main_dynamic -lm
+Step 3
+
+Run
+
+./main_dynamic
